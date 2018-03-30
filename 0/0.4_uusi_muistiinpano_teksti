@@ -1,0 +1,37 @@
+title 0.4 Uusi muistiinpano
+
+kayttaja->selain:
+note left of selain
+Käyttäjä tallentaa uuden muistiinpanon
+end note
+
+selain->palvelin: POST fullstack-exampleapp.herokuapp.com/new_note
+note left of palvelin
+Palvelin saa POST-pyynnön datan ja luo uutta muistiinpanoa
+vastaavan olion sekä tallentaa sen taulukkoon, joka sisältää
+muistiinpanot
+end note
+
+palvelin->selain: status 302, uudelleenohjauspyyntö
+
+selain->palvelin: GET fullstack-exampleapp.herokuapp.com/notes
+palvelin->selain:status 200, document
+
+note right of selain
+Sivunlataus saa aikaan myös kolme muuta HTTP-pyyntöä
+end note
+
+
+selain->palvelin: GET fullstack-exampleapp.herokuapp.com/main.css
+palvelin->selain:status 200, stylesheet
+
+selain->palvelin: GET fullstack-exampleapp.herokuapp.com/main.js
+palvelin->selain:status 200, script
+
+selain->palvelin: GET fullstack-exampleapp.herokuapp.com/data.json
+palvelin->selain:status 200, xhr
+
+note left of selain
+Selain näyttää palvelimen palauttaman HTML:n
+jossa on uusi muistiinpano lisättynä
+end note
