@@ -1,0 +1,36 @@
+title Uusi muistiinpano SPA:ssa
+
+kayttaja->selain:
+note left of selain
+Käyttäjä tallentaa uuden muistiinpanon
+end note
+
+kayttaja->selain:
+note left of selain
+JavaScript-tiedostossa estetään lomakkeen lähetys palvelimelle ja
+automaattinen sivun uudelleen lataus. JavaScriptillä luodaan uusi
+muistiinpanon ja lisätään se muistiinpanojen listalle
+end note
+
+note left of selain
+Selain piirtää ruudulle käyttäjälle näytettäväksi
+uuden muistiinpanon lisättynä listalle
+end note
+
+note left of selain
+Lopulta selain lähettää luodun muistiinpano palvelimelle
+end note
+
+selain->palvelin: POST fullstack-exampleapp.herokuapp.com/new_note_spa
+note left of palvelin
+Palvelin saa POST-pyynnön datan ja luo uutta muistiinpanoa
+vastaavan olion sekä tallentaa sen taulukkoon, joka sisältää
+muistiinpanot
+end note
+
+palvelin->selain: status 201 (created), xhr
+note left of palvelin
+The request has been fulfilled and has resulted in one
+or more new resources being created.
+end note
+
