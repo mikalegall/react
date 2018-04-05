@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 const App = () => {
+
   const kurssi = 'Half Stack -sovelluskehitys'
   const osa1 = 'Reactin perusteet'
   const tehtavia1 = 10
@@ -12,13 +13,43 @@ const App = () => {
 
   return (
     <div>
-      <h1>{kurssi}</h1>
-      <p>{osa1} {tehtavia1}</p>
-      <p>{osa2} {tehtavia2}</p>
-      <p>{osa3} {tehtavia3}</p>
-      <p>yhteensä {tehtavia1 + tehtavia2 + tehtavia3} tehtävää</p>
-    </div>
+      <Otsikko kurssi={kurssi} />
+      <Sisalto  osa1={osa1} tehtavia1={tehtavia1} 
+                osa2={osa2} tehtavia2={tehtavia2}
+                osa3={osa3} tehtavia3={tehtavia3}
+      />
+      <Yhteensa yhteensä={tehtavia1 + tehtavia2 + tehtavia3} />
+      </div>
   )
+}
+
+const Otsikko = (props) =>{
+    return (
+    <div>
+        <p><b>{props.kurssi}</b></p>
+    </div>
+    )
+}
+
+const Sisalto = (props) =>{
+    return (
+    <div>
+        <p>{props.osa1} {props.tehtavia1}
+        <br />
+        {props.osa2} {props.tehtavia2}
+        <br />
+        {props.osa3} {props.tehtavia3}
+        </p>
+    </div>
+    )
+}
+
+const Yhteensa = (props) =>{
+    return (
+    <div>
+        <p>Yhteensä {props.yhteensä} tehtävää</p>
+    </div>
+    )
 }
 
 ReactDOM.render(
