@@ -20,11 +20,28 @@ const Statistics = (props) => {
   
   return (
     <div>
-      <Statistic teksti='Hyvä' naytaArvo={props.laskuriHyvä}/>
-      <Statistic teksti='Neutraali' naytaArvo={props.laskuriNeutraali}/>
-      <Statistic teksti='Huono' naytaArvo={props.laskuriHuono}/>
-      <Statistic teksti='Keskiarvo' naytaArvo={(props.laskuriHyvä - props.laskuriHuono) / (props.laskuriHyvä + props.laskuriNeutraali + props.laskuriHuono)}/>
-      <Statistic teksti='Positiivisia' naytaArvo={Math.round((props.laskuriHyvä * 100 / (props.laskuriHyvä + props.laskuriNeutraali + props.laskuriHuono)),1)} loppukaneetti='%'/>
+      <table>
+      	<tr>
+			    <td><Statistic teksti='Hyvä' naytaArvo={props.laskuriHyvä}/>
+			    </td>
+        </tr>
+        <tr>
+        <td><Statistic teksti='Neutraali' naytaArvo={props.laskuriNeutraali}/>
+        </td>
+	      </tr>
+        <tr>
+        <td><Statistic teksti='Huono' naytaArvo={props.laskuriHuono}/>
+        </td>
+	      </tr>
+        <tr>
+        <td><Statistic teksti='Keskiarvo' naytaArvo={(props.laskuriHyvä - props.laskuriHuono) / (props.laskuriHyvä + props.laskuriNeutraali + props.laskuriHuono)}/>
+        </td>
+	      </tr>
+        <tr>
+        <td><Statistic teksti='Positiivisia' naytaArvo={Math.round((props.laskuriHyvä * 100 / (props.laskuriHyvä + props.laskuriNeutraali + props.laskuriHuono)),1)} loppukaneetti='%'/>
+        </td>
+	      </tr>
+      </table>
     </div>
   )
 }
