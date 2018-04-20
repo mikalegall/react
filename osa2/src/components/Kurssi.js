@@ -7,6 +7,18 @@ const Kurssi = ({ props }) => {
         <div>
             <b>{props.nimi}</b>
                 <Sisalto props={props.osat}/>
+                yhteensä { }
+
+                {props.osat
+                .map(
+                ob =>
+                ob.tehtavia)
+                .reduce(
+                    (tehtavia, Xxxx) 
+                )
+                }
+
+                { } tehtävää
       </div>
     )
   }
