@@ -6,7 +6,6 @@ const Sisalto = ({ props }) => {
 
     return (
         <div>
-          {props.nimi}
            { props.map(
             ob =>
               <Osa

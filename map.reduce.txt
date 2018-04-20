@@ -1,0 +1,49 @@
+﻿https://youtu.be/Wl98eZpkp-c?t=5m38s
+
+const kurssi = {
+      nimi: 'Half Stack -sovelluskehitys',
+      osat: [
+        {
+          nimi: 'Reactin perusteet',
+          tehtavia: 10,
+          id: 1
+        },
+        {
+          nimi: 'Tiedonvälitys propseilla',
+          tehtavia: 7,
+          id: 2
+        },
+        {
+          nimi: 'Komponenttien tila',
+          tehtavia: 14,
+          id: 3
+        },
+        {
+          nimi: 'Redux',
+          tehtavia: 7,
+          id: 4
+        }
+      ]
+}
+
+REDUCE
+let yhteensäSumma = props.osat.reduce(
+    function
+    (summa, tehtavatPerOsa){
+        return summa + tehtavatPerOsa.tehtavia
+    }, 0 // "0" = "summa" (tämä alustus on pakollinen laskennan aloituspisteeksi)
+)
+
+MAP
+return (
+        <div>
+           { props.map(
+            object =>
+              <Osa
+                key={object.id}
+                props={object}
+              />
+            )
+          }
+		</div>
+)
