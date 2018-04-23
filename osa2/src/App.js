@@ -1,120 +1,84 @@
-
 import React from 'react';
-import Note from './components/Note'
+import Henkilo from './components/Henkilo'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      notes: props.notes,
-      newNote: 'uusi muistiinpano...',
-      showAll: true
-    }
-}
-
-
-
-addNote = (event) => {
-  event.preventDefault()
-  
-  const muistiinpanoJSON = {
-    content: this.state.newNote,
-    date: new Date().new,
-    important: Math.random() > 0.5,
-    id: this.state.notes.length + 1
-  }
-
-  const notes = this.state.notes.concat(muistiinpanoJSON)
-
-  this.setState({ // // Lopulta komponentin Tila (state) päivitetään
-    notes, // uudella muistiinpanolla ja
-    newNote: ''   // tyhjennetään kontrolloidun syötekomponentin kenttä
-  })
-}
-
-handleNoteChange = (event) => {
-  // event.target vastaa kontrolloidun syötekomponentin input-kenttää
-    //  event.target.value vastaa kontrolloidun syötekomponentin kentän arvoa
-      console.log('handleNoteChange --> event.target.value on: ', event.target.value)
-        this.setState({ newNote: event.target.value })
-}
-
-toggleVisible = () => {
-  this.setState({showAll: !this.state.showAll})
-}
-
-  render() {
-                        // If ("boolean")  ? then             : else
-    const notesToShow = this.state.showAll ? this.state.notes : this.state.notes.filter(note => note.important === true)
-      
-    const label = this.state.showAll ? 'vain tärkeät' : 'kaikki'
-    
-
-      return (
-        
-      <div>
-        <h1>Muistiinpanot</h1>
-        <div>
-          <button onClick={this.toggleVisible}>
-            näytä {label}
-          </button>
-        </div>
-        <ul>
-          {notesToShow.map(note => <Note key={note.id} note={note} />)}
-        </ul>
-        <form onSubmit={this.addNote}>
-          <input 
-            value={this.state.newNote} 
-            // Tapahtumankäsittelijää kutsutaan aina kun syötekomponentissa tapahtuu jotain 
-            onChange={this.handleNoteChange}
-          />
-              <button type="submit">tallenna</button>
-        </form>
-      </div>
-    )
-  }
-}
-
-export default App
-
-
-/*
-import React from 'react';
-
-class App extends React.Component {
-
-  constructor(props) {
-    super(props)
-  
-    this.state = {
-      persons: [
-        { name: 'Arto Hellas' }
+      henkilot: [
+        { nimi: 'Arto Hellas' }
       ],
-      newName: ''
+      uusiNimi: ''
     }
   }
 
-  render() {
+
+  kasitteleMuutos = (event) => {
+    // event.target vastaa kontrolloidun syötekomponentin input-kenttää
+      //  event.target.value vastaa kontrolloidun syötekomponentin kentän arvoa
+        console.log('kasitteleMuutos --> event.target.value on: ', event.target.value)
+          this.setState({ uusiNimi: event.target.value })
+  }
+
+
+  // Lomakkeen kentän kautta vastaanotetaan muutos, joka halutaan tallentaa
+  lisaaMuutos = (event) => {
+    event.preventDefault()
+
+    console.log('this.state.uusiNimi = ', this.state.uusiNimi)
+
+    // JÄIN TÄHÄN!! If this.state.uusiNimi = this.state.henkilot diipadaapaa NIIN tee jotain
+
+    const olioJSON = {
+      nimi: this.state.uusiNimi
+    }
+
+    const henkilot = this.state.henkilot.concat(olioJSON)
+    this.setState({ // // Lopulta komponentin Tila (state) päivitetään
+      henkilot, // uudella muistiinpanolla ja
+      uusiNimi: ''   // tyhjennetään kontrolloidun syötekomponentin kenttä
+    })
+}
+  
+
+
+
+render() {
+
     return (
       <div>
         <h2>Puhelinluettelo</h2>
-        <form>
+
+        <form onSubmit={this.lisaaMuutos}>
           <div>
-            nimi: <input />
+            nimi:
+
+            <input 
+            value={this.state.uusiNimi} 
+            // Tapahtumankäsittelijää kutsutaan aina kun syötekomponentissa tapahtuu jotain 
+            onChange={this.kasitteleMuutos}
+          />
+
           </div>
-          <div>
-            debug: {this.state.newName}
-          </div>
+
           <div>
             <button type="submit">lisää</button>
           </div>
         </form>
         <h2>Numerot</h2>
-        foo
+
+        {/* Yhden henkilön näyttäminen olisi 
+              <Henkilo key={this.state.henkilot[0].nimi} props={this.state.henkilot[0]} />
+        */}
+        {console.log('this.state.henkilot[0].nimi = ', this.state.henkilot[0].nimi)}
+        {// Järjestetään taulukon sisältämä lista uudelleen map-function avulla (näytetään kaikki taulukon sisältämät JSON-oliot)
+        }
+        {this.state.henkilot.map(hlo =>  
+        <Henkilo key={hlo.nimi} props={hlo} />
+        )}
       </div>
     )
   }
 }
 
 export default App
-*/
