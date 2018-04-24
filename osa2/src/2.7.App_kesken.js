@@ -45,10 +45,8 @@ class App extends React.Component {
         }
         }) 
         // TODO: IF ehdon täyttyessä hyppää pois tästä 'lisaaMuutos()' -funktiometodista eli keskeytä alla olevien rivien suorittaminen
-       
-          
-        
 
+        
        const olioJSON = {
         nimi: this.state.uusiNimi
       }
@@ -58,9 +56,6 @@ class App extends React.Component {
         henkilot, // uudella muistiinpanolla ja
         uusiNimi: ''   // tyhjennetään kontrolloidun syötekomponentin kenttä
       })
-
-
-
   }
 // ***********************************************************************************************************
   
