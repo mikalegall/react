@@ -1,0 +1,6 @@
+Asynkronisen metodin palauttama promise tarkoittaa sit‰, ett‰ lupauksella (promise) alustettu muuttujan alkuarvo tullaan jossain vaiheessa korvaamaan tarkoituksenmukaisella arvolla. Arvo saattaa olla esim. tieto siit‰, ett‰ muuttujan arvon muodostaminen ep‰onnistui. Muut mahdollisuudet ovat tieto siit‰, ett‰ operaatio onnistui tai jo aiemmin mainittu alustuksen arvo "odottaa" (pending). Siihen saakka kunnes lupauksen (promise) pending tila muuttuu ovat kaikki siit‰ arvosta riippuvaiset k‰sittelij‰t (handler) jonossa odottamassa arvon muodostumista.
+***
+Promise edustaa asynkronista operaatiota. Promise voi olla kolmessa eri tilassa:
+* aluksi promise on pending, eli promisea vastaava asynkroninen operaatio ei ole viel‰ tapahtunut
+* jos operaatio p‰‰ttyy onnistuneesti, menee promise tilaan fulfilled, josta joskus k‰ytet‰‰n nimityst‰ resolved
+* kolmas mahdollinen tila on rejected, joka edustaa ep‰onnistunutta operaatiota
