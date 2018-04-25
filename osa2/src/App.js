@@ -1,136 +1,129 @@
 import React from 'react';
-import Henkilo from './components/Henkilo'
-// import LisaysLomake from './components/LisaysLomake'
+import Note from './components/Note'
 import axios from 'axios'
+
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-                  henkilot: [],
-                  uusiNimi: '',
-                  uusiNumero: '',
-                  rajaus: ''
-                 }
+      notes: [],
+      newNote: '',
+      showAll: true
+    }
+    console.log('Käytiin konstruktorissa')
   }
 
 
+addNote = (event) => {
+  event.preventDefault()
   
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-kasitteleMuutosNimi = (event) => {
-    // event.target vastaa kontrolloidun syötekomponentin input-kenttää
-      //  event.target.value vastaa kontrolloidun syötekomponentin kentän arvoa
-        console.log('kasitteleMuutosNimi --> event.target.value on: ', event.target.value)
-          this.setState({ uusiNimi: event.target.value })
+  const muistiinpanoJSON = {
+    content: this.state.newNote,
+//    date: new Date().new,
+    date: new Date(),
+    important: Math.random() > 0.5,
+//    id: this.state.notes.length + 1
   }
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-kasitteleMuutosNumero = (event) => {
+//  const notes = this.state.notes.concat(muistiinpanoJSON)
+
+    axios
+        .post('http://localhost:3001/notes', muistiinpanoJSON)
+        .then(
+          response =>
+            {
+                console.log(response)
+                this.setState({ // Lopulta komponentin Tila (state) päivitetään
+                  notes: this.state.notes.concat(response.data), // uudella muistiinpanolla ja
+                  newNote: '' // tyhjennetään kontrolloidun syötekomponentin kenttä.
+                // Yllä oleva Tilan päivittäminen aiheuttaa renderöinnin, jolloin juuri lisätty uusi muistiinpano
+                // saadaan myös ruudulle näkyviin 'componentDidMount()' avulla, joka aiheuttaa taas uudelleen renderöinnin :)
+                })
+            }
+        )
+}
+
+
+
+handleNoteChange = (event) => {
   // event.target vastaa kontrolloidun syötekomponentin input-kenttää
     //  event.target.value vastaa kontrolloidun syötekomponentin kentän arvoa
-      console.log('kasitteleMuutosNumero --> event.target.value on: ', event.target.value)
-        this.setState({ uusiNumero: event.target.value })
+      console.log('handleNoteChange --> event.target.value on: ', event.target.value)
+        this.setState({ newNote: event.target.value })
 }
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+toggleVisible = () => {
+  this.setState({showAll: !this.state.showAll})
+}
 
+// Alla oleva "tehdas" luo yksilöllisiä tapahtumankäsittelijöitä
+toggleImportanceOf = (id) => {
+  return () => {
+    console.log(`importance of ${id} needs to be toggled`)
+ 
+    const url = `http://localhost:3001/notes/${id}`
+      const note = this.state.notes.find(n => n.id === id)
+      const changedNote = { ...note, important: !note.important } // Shallow copy: kenttien arvoina on vanhan olion kenttien arvot.
+                                                                  // Jos vanhan olion kentät olisivat itsessään olioita, viittaisivat uuden olion kentät samoihin olioihin.
 
-// ***********************************************************************************************************
-  // Lomakkeen kentän kautta vastaanotetaan muutos, joka halutaan tallentaa
-  lisaaMuutos = (event) => {
-    event.preventDefault()
-        console.log('this.state.uusiNimi = ', this.state.uusiNimi)
-
-        // 2.7. JÄIN TÄHÄN!! IF 'this.state.henkilot.nimi' (luuppaa läpi) === this.state.uusiNimi NIIN window.alert('Henkilö on jo tallennettu')
-        // https://react-cn.github.io/react/tips/if-else-in-JSX.html
-        let ehdokas = this.state.uusiNimi
-        this.state.henkilot.forEach(function(taulukonAlkio) {
-                                            console.log('PÖÖ = ', taulukonAlkio.nimi)
-          if (taulukonAlkio.nimi === ehdokas) {
-            window.alert('Henkilö on jo tallennettu')
-        }
-        }) 
-        // TODO: IF ehdon täyttyessä hyppää pois tästä 'lisaaMuutos()' -funktiometodista eli keskeytä alla olevien rivien suorittaminen
-       
-      
-       const olioJSON = {
-        nimi: this.state.uusiNimi,
-        numero: this.state.uusiNumero
-      }
-
-  const henkilot = this.state.henkilot.concat(olioJSON)
-      this.setState({ // // Lopulta komponentin Tila (state) päivitetään
-        henkilot, // uudella muistiinpanolla ja
-        uusiNimi: '', // tyhjennetään kontrolloidun syötekomponentin kenttä
-        uusiNumero: ''  // tyhjennetään kontrolloidun syötekomponentin kenttä
+    axios
+      .put(url, changedNote)
+      .then(response => {
+        this.setState({
+          // notes-taulokon note-oliot
+          // Jos id on erisuuri kuin etsittävä id            ? niin lisää notes-taulukkoon olemassa oleva note-olio 
+          notes: this.state.notes.map(note => note.id !== id ? note : changedNote)
+                                                                  //: muutoin lisää muuttunutNote-olio (notes-taulukkoon) 
+        })
       })
   }
-// ***********************************************************************************************************
-  
-
-
-
-componentWillMount() {
-  console.log('Elinkaarimetodi "componentWillMount" suoritettiin')
-  axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      console.log('axios.get.foobar.then.response.data = ', response.data)
-      console.log('Promise muuttunut fulfilled tilaan ja setState-metodia tökkäisty eli käsketty renderöimään')
-      this.setState({ henkilot: response.data })
-    })
 }
 
+  render() {
+    console.log('Käytiin renderissä')
+                        // If ("boolean")  ? then             : else
+    const notesToShow = this.state.showAll ? this.state.notes : this.state.notes.filter(note => note.important === true)
+      
+    const label = this.state.showAll ? 'vain tärkeät' : 'kaikki'
+    
 
-render() {
-  console.log('Käytiin renderissä')
-
-    return (
+      return (
+        
       <div>
-
-
-        <h2>Puhelinluettelo</h2>
-      { /* <LisaysLomake props={this.state} /> */ }
-
-        <h2> Lisää uusi</h2>
-        <form onSubmit={this.lisaaMuutos}>
-          <div>
-            nimi:
-            <input 
-            value={this.state.uusiNimi} 
+        <h1>Muistiinpanot</h1>
+        <div>
+          <button onClick={this.toggleVisible}>
+            näytä {label}
+          </button>
+        </div>
+        <ul>
+          {notesToShow.map(note => <Note key={note.id} note={note} toggleImportance={this.toggleImportanceOf(note.id)} />)}
+        </ul>
+        <form onSubmit={this.addNote}>
+          <input 
+            value={this.state.newNote} 
             // Tapahtumankäsittelijää kutsutaan aina kun syötekomponentissa tapahtuu jotain 
-            onChange={this.kasitteleMuutosNimi}
+            onChange={this.handleNoteChange}
           />
-          </div>
-          
-          
-          <div>
-            numero:
-            <input 
-            value={this.state.uusiNumero} 
-            // Tapahtumankäsittelijää kutsutaan aina kun syötekomponentissa tapahtuu jotain 
-            onChange={this.kasitteleMuutosNumero}
-          />
-          </div>
-          
-          
-          <div>
-            <button type="submit">lisää</button>
-          </div>
+              <button type="submit">tallenna</button>
         </form>
-
-
-
-        <h2>Numerot</h2>
-        {this.state.henkilot.map(hlo =>  
-        <Henkilo key={hlo.id} props={hlo} />
-        )}
-
-
       </div>
     )
   }
+
+
+  componentDidMount() {
+    console.log('Elinkaarimetodi "componentDidMount" suoritettiin')
+    axios
+      .get('http://localhost:3001/notes')
+      .then(response => {
+        console.log('Promise muuttunut fulfilled tilaan ja setState-metodia tökkäisty eli käsketty renderöimään')
+        this.setState({ notes: response.data })
+      })
+  }
+
+
 }
 
 export default App

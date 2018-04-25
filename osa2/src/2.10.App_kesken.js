@@ -45,31 +45,36 @@ kasitteleMuutosNumero = (event) => {
   lisaaMuutos = (event) => {
     event.preventDefault()
         console.log('this.state.uusiNimi = ', this.state.uusiNimi)
-
-        // 2.7. JÄIN TÄHÄN!! IF 'this.state.henkilot.nimi' (luuppaa läpi) === this.state.uusiNimi NIIN window.alert('Henkilö on jo tallennettu')
-        // https://react-cn.github.io/react/tips/if-else-in-JSX.html
-        let ehdokas = this.state.uusiNimi
-        this.state.henkilot.forEach(function(taulukonAlkio) {
-                                            console.log('PÖÖ = ', taulukonAlkio.nimi)
-          if (taulukonAlkio.nimi === ehdokas) {
-            window.alert('Henkilö on jo tallennettu')
+        
+        let apumuuttuja = false
+          for (let i = 0; i < this.state.henkilot.length; i++) {
+            if (this.state.henkilot[i].nimi === this.state.uusiNimi) {
+                apumuuttuja = true;
+                break;
+            }
         }
-        }) 
-        // TODO: IF ehdon täyttyessä hyppää pois tästä 'lisaaMuutos()' -funktiometodista eli keskeytä alla olevien rivien suorittaminen
-       
       
-       const olioJSON = {
-        nimi: this.state.uusiNimi,
-        numero: this.state.uusiNumero
-      }
+      console.log('apumuuttuja = ', apumuuttuja)
 
-  const henkilot = this.state.henkilot.concat(olioJSON)
-      this.setState({ // // Lopulta komponentin Tila (state) päivitetään
-        henkilot, // uudella muistiinpanolla ja
-        uusiNimi: '', // tyhjennetään kontrolloidun syötekomponentin kenttä
-        uusiNumero: ''  // tyhjennetään kontrolloidun syötekomponentin kenttä
+      if (apumuuttuja) {
+            window.alert('Henkilö on jo tallennettu')
+            this.setState({ // Lopulta komponentin Tila (state) päivitetään
+              ...this.state.henkilot, // kopioimalla olemassa olevat henkilöt
+              uusiNimi: ''   // ja tyhjentämällä kontrolloidun syötekomponentin kenttä
+            })
+      } else {
+              const olioJSON = {
+              nimi: this.state.uusiNimi
+              }
+
+      const henkilot = this.state.henkilot.concat(olioJSON)
+
+      this.setState({ // Lopulta komponentin Tila (state) päivitetään
+        henkilot, // uudella henkilöllä ja
+        uusiNimi: ''   // tyhjennetään kontrolloidun syötekomponentin kenttä
       })
-  }
+    }
+}
 // ***********************************************************************************************************
   
 
