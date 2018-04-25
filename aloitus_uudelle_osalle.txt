@@ -13,3 +13,7 @@ Lisää package.json tuon Serverin scripti
     "eject": "react-scripts eject",
 	"server": "json-server -p3001 db.json"
   }
+
+
+npm run server
+
