@@ -4,3 +4,38 @@ Promise edustaa asynkronista operaatiota. Promise voi olla kolmessa eri tilassa:
 * aluksi promise on pending, eli promisea vastaava asynkroninen operaatio ei ole vielä tapahtunut
 * jos operaatio päättyy onnistuneesti, menee promise tilaan fulfilled, josta joskus käytetään nimitystä resolved
 * kolmas mahdollinen tila on rejected, joka edustaa epäonnistunutta operaatiota
+
+--X--X--
+
+Kun muuttuja pitää alustaa alkuarvolla voidaan siinä käyttää "promise" ("pending"). Se tullaan sitten jossain vaiheessa korvaamaan joko "rejected" tai "fulfilled" tilalla. Mikäli tilan muutos on pending --> fulfilled saadaan muuttujasta esiin sen sisältämä response objekti
+promise.then(function(response_resolve_result) {
+  return response_resolve_result;
+});
+
+
+fetch('URL/user.json')
+  .then(response => response.json())
+  .then(user => alert(user.name)); // Ponnahdusikkunaan tulee json-tiedoston kentästä "nimi" sen sisältämä arvo
+
+Pääsääntöisesti .then käsittelijä välittää palauttamansa arvon välittömästi seuraavalle. Poikkeuksena on tilanne, jossa palautettava arvo on promise. Siinä tapauksessa eteneminen jää odotus-tilaan kunnes se muuttuu jo aiemmin mainittuihin vaihtoehtoihin rejected tai fulfilled.
+
+Now let’s do something with the loaded user.
+For instance, we can make one more request to github, load the user profile and show the avatar:
+
+// Make a request for user.json
+fetch('URL/user.json')
+  // Load it as json
+  .then(response => response.json())
+  // Make a request to github
+  .then(user => fetch(`https://api.github.com/users/${user.name}`))	// https://api.github.com/users/mikalegall
+  // Load the response as json
+  .then(response => response.json())
+  // Show the avatar image (githubUser.avatar_url) for 3 seconds (maybe animate it)
+  .then(githubUser => {
+    let img = document.createElement('img');
+    img.src = githubUser.avatar_url;	// https://avatars0.githubusercontent.com/u/32478503
+    img.className = "promise-avatar-example";
+    document.body.append(img);
+
+    setTimeout(() => img.remove(), 3000); // (*)
+  });

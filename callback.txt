@@ -1,0 +1,60 @@
+﻿Tapahtumankäsittelijöihin liittyvä mekanismi koodin suorittamiseen on Javascriptissä erittäin yleistä. Tapahtumankäsittelijöinä olevia Javascript-funktioita kutsutaan callback- eli takaisinkutsufunktioiksi sillä sovelluksen koodi ei kutsu niitä itse, vaan suoritusympäristö, eli web-selain suorittaa funktion kutsumisen sopivana ajankohtana, eli kyseisen tapahtuman tapahduttua.
+
+Callback-funktiometodin idea:
+
+Annetaan Callback-funktio ylemmältä tasolta alemman tason propseille
+    <JohdonTyopoyta url="http://md5.jsontest.com/?text=example_text" showItem="md5" callback={this.registerCallback}/>
+
+Ja vastaanotetaan se alemmalla tasolla
+    export interface JohdonTyopoytaProps { url: string; showItem: string; callback?: any}
+
+Alempi taso voi kutsua Callback-funktiolla ylempää tasoa, jolloin ylempoi taso saa tietää, että jotain merkittävää on tapahtunut ("Homma hoidettu").
+    this.props.callback();
+    console.log("Kutsutaan alhaalta ylöspäin metodia callback");
+
+Tämän jälkeen voidaan esim. 
+    registerCallback(){
+        console.log("Ollaan metodissa 'registerCallback'");
+        }
+--X--X--
+    registerCallback = (element: JohdonTyopoyta) =>{
+        console.log(`Ollaan metodissa registerCallback, alemman tason elementti = $(element)`);
+   
+    this.JohdonTyopoyta.push(element);
+    console.log("Push tehty");
+--X--X--
+Ylemmän tason komponentti voi ilmoittaa propsien avulla alemman tason komponentille, että sinun on mahdollista kutsua minun omistamaa metodia nimeltä Callback, jolla minä otan sinun komponenttisi nimen talteen ja pääsen sen kautta käsiksi sinun sisäisiin metodeihisi.
+* Eri tavalla esitettynä täsmälleen sama asia on, että Callback-rutiini on alemmantason komponentin heittämä napanuora-kaukosäädin, jolla annetaan hierarkiassa ylöspäin pääsy alemmantason metodeihin.
+
+Eli siis jos annetaan "this" callbackin mukana
+this.props.callback(this);
+niin silloin päästään ylemmältä tasolta käsiksi alemman tason toiminnallisuuksiin.
+Javascriptissa this:n arvo määrittyy sen mukaan miten metodia on kutsuttu (toisin kuin monissa muissa kielissä).
+Kutsuttaessa metodia viitteen kautta, on metodi kadottanut tiedon siitä mikä oli alkuperäinen this ja palauttaa usein arvon undefined. Kutsuttaessa metodia viitteen kautta, this:in arvoksi tulee ns. globaali objekti
+https://developer.mozilla.org/en-US/docs/Glossary/Global_object
+
+const lare = {
+  nimi: 'Mika Le Gall',
+  tervehdi: function () {
+    console.log('Tervehdys, oikea nimeni on', this.nimi)
+  },
+  laskeSumma: function (a, b) {
+    console.log(a + b)
+  }
+}
+
+lare.laskeSumma(1, 4)   // tulostuu 5
+
+const viiteSummaan = lare.laskeSumma
+viiteSummaan(10, 15)   // tulostuu 25
+
+lare.tervehdi()        // tulostuu Tervehdys, oikea nimeni on Mika Le Gall
+
+const viiteTervehdykseen = lare.tervehdi()
+viiteTervehdykseen()   // tulostuu Tervehdys, oikea nimeni on undefined
+
+setTimeout(lare.tervehdi, 1000) // Selaimen JavaScript-moottori kutsuu 1000 millisekunnin (yksi sekunti) kuluuttua metodia, jolloin this viittaa Timeout-olioon
+
+Komento lare.tervehdi.bind(lare) luo uuden funktion, missä se on sitonut this:in tarkoittamaan Mikaa (lare) riippumatta siitä missä ja miten metodia kutsutaan.
+Syvällisemmin this:istä osoitteessa https://egghead.io/courses/understand-javascript-s-this-keyword-in-depth
+
