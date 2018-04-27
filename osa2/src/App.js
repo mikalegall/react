@@ -1,9 +1,9 @@
 import React from 'react';
 import Note from './components/Note'
-import axios from 'axios'
+import noteService from './services/muistiinpanot'
+// import axios from 'axios'
 
-
-class App extends React.Component {
+class App extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -17,7 +17,7 @@ class App extends React.Component {
 
 addNote = (event) => {
   event.preventDefault()
-  
+
   const muistiinpanoJSON = {
     content: this.state.newNote,
 //    date: new Date().new,
@@ -28,8 +28,10 @@ addNote = (event) => {
 
 //  const notes = this.state.notes.concat(muistiinpanoJSON)
 
-    axios
-        .post('http://localhost:3001/notes', muistiinpanoJSON)
+        noteService
+        .create(muistiinpanoJSON)
+    // axios
+        // .post('http://localhost:3001/notes', muistiinpanoJSON)
         .then(
           response =>
             {
@@ -62,13 +64,14 @@ toggleImportanceOf = (id) => {
   return () => {
     console.log(`importance of ${id} needs to be toggled`)
  
-    const url = `http://localhost:3001/notes/${id}`
+    //const url = `http://localhost:3001/notes/${id}`
       const note = this.state.notes.find(n => n.id === id)
       const changedNote = { ...note, important: !note.important } // Shallow copy: kenttien arvoina on vanhan olion kenttien arvot.
                                                                   // Jos vanhan olion kentät olisivat itsessään olioita, viittaisivat uuden olion kentät samoihin olioihin.
-
-    axios
-      .put(url, changedNote)
+      noteService
+    //axios
+      // .put(url, changedNote)
+      .update(id, changedNote)
       .then(response => {
         this.setState({
           // notes-taulokon note-oliot
@@ -86,10 +89,10 @@ toggleImportanceOf = (id) => {
     const notesToShow = this.state.showAll ? this.state.notes : this.state.notes.filter(note => note.important === true)
       
     const label = this.state.showAll ? 'vain tärkeät' : 'kaikki'
-    
+
 
       return (
-        
+
       <div>
         <h1>Muistiinpanot</h1>
         <div>
@@ -115,14 +118,20 @@ toggleImportanceOf = (id) => {
 
   componentDidMount() {
     console.log('Elinkaarimetodi "componentDidMount" suoritettiin')
-    axios
-      .get('http://localhost:3001/notes')
-      .then(response => {
-        console.log('Promise muuttunut fulfilled tilaan ja setState-metodia tökkäisty eli käsketty renderöimään')
-        this.setState({ notes: response.data })
-      })
-  }
+    // axios
+    //  .get('http://localhost:3001/notes')
+    //  .then(response => {
+    //    this.setState({ notes: response.data })
+    //  })
+  noteService
+    .getAll()
+    .then(response => {
+      console.log('Promise muuttunut fulfilled tilaan ja setState-metodia tökkäisty eli käsketty renderöimään')      
+      this.setState({notes: response.data})
+    })
 
+
+    }
 
 }
 

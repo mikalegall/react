@@ -1,4 +1,4 @@
-Asynkronisen metodin palauttama promise tarkoittaa sitä, että lupauksella (promise) alustettu muuttujan alkuarvo tullaan jossain vaiheessa korvaamaan tarkoituksenmukaisella arvolla. Arvo saattaa olla esim. tieto siitä, että muuttujan arvon muodostaminen epäonnistui. Muut mahdollisuudet ovat tieto siitä, että operaatio onnistui tai jo aiemmin mainittu alustuksen arvo "odottaa" (pending). Siihen saakka kunnes lupauksen (promise) pending tila muuttuu ovat kaikki siitä arvosta riippuvaiset käsittelijät (handler) jonossa odottamassa arvon muodostumista.
+Asynkronisen metodin, kuten esim. fetch, palauttama promise tarkoittaa sitä, että lupauksella (promise) alustettu muuttujan alkuarvo tullaan jossain vaiheessa korvaamaan tarkoituksenmukaisella arvolla. Arvo saattaa olla esim. tieto siitä, että muuttujan arvon muodostaminen epäonnistui. Muut mahdollisuudet ovat tieto siitä, että operaatio onnistui tai jo aiemmin mainittu alustuksen arvo "odottaa" (pending). Siihen saakka kunnes lupauksen (promise) pending tila muuttuu ovat kaikki siitä arvosta riippuvaiset käsittelijät (handler) jonossa odottamassa arvon muodostumista.
 ***
 Promise edustaa asynkronista operaatiota. Promise voi olla kolmessa eri tilassa:
 * aluksi promise on pending, eli promisea vastaava asynkroninen operaatio ei ole vielä tapahtunut
@@ -39,3 +39,10 @@ fetch('URL/user.json')
 
     setTimeout(() => img.remove(), 3000); // (*)
   });
+
+--X--X--
+
+A fetch() promise rejects with a TypeError when a network error is encountered, although this usually means a permissions issue or similar. An accurate check for a successful fetch() would include checking that the promise resolved, then checking that the Response.ok property has a value of true.
+HUOM!
+An HTTP status of 404 does not constitute a network error.
+https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
