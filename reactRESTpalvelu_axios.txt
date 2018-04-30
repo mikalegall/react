@@ -1,0 +1,107 @@
+React REST-palvelu (axios)
+
+
+restservice.js
+import axios from 'axios'
+
+
+// Tämä ei ole React komponentti (tyhmällä komponentilla olisi propsit ja älykkäällä state) vaan moduuli
+const baseUrl = 'http://api.foo.com/bar'
+
+// REST-PALVELUN GET-METODI KAIKKIEN OLIOIDEN HAKEMISEEN
+const getAll = () => {
+  return axios.get(baseUrl)
+  //const request = axios.get(baseUrl)
+  /*
+  // return request.then(response => { return response.data }) Kun sisältää vain yhden lausekkeen voidaan aaltosulkeet ja return pudottaa pois
+  /*return request.then(response => response.data) // Poistetaan vastauksesta tilpehöörit (headerit, request statukset yms),
+                                                 // kun ollaan kiinnostuneita vain data arraysta
+  */
+}
+
+
+// REST-PALVELUN POST-METODI UUDEN LUOMISELLE
+const create = (newObject) => {
+  const request = axios.post(baseUrl, newObject)
+  return request.then(response => response.data)
+}
+
+
+// REST-PALVELUN PUT-METODI JO OLEMASSAOLEVAN OLION PÄIVITTÄMISEEN
+const update = (id, updatedObject) => {
+  const request = axios.put(`${baseUrl}/${id}`, updatedObject)
+  return request.then(response => response.data)
+}
+
+export default { getAll, create, update }
+
+
+--X--X--
+
+
+App.js
+import React from 'react';
+import restservice from './services/restservice'
+
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+                  lorem: [],
+                  ipsus: '',
+                  foo: '',
+                  bar: ''
+                 }
+  }
+
+  componentWillMount() {
+    console.log('Elinkaarimetodi "componentWillMount" suoritettiin')
+	// REST-PALVELUN GET-METODI KAIKKIEN OLIOIDEN HAKEMISEEN
+      restservice
+      .getAll()
+      .then(response => {
+          console.log('Promise muuttunut fulfilled tilaan ja setState-metodia tökkäisty eli käsketty renderöimään')      
+        this.setState({ lorem: response.data })
+      })
+  }
+
+/*
+TODO:   lisaaMuutos = (event) => {
+    event.preventDefault()
+        console.log('this.state.foo = ', this.state.foo, 'this.state.bar = ', this.state.bar)
+// TEE TÄNNE ESIM: "olioJSON"
+// toimiva malli osoitteessa https://github.com/mikalegall/react/blob/master/osa2/src/2.14.App.js
+*/
+
+			// REST-PALVELUN PUT-METODI JO OLEMASSAOLEVAN OLION PÄIVITTÄMISEEN
+			restservice
+			.create(olioJSON)
+            .then(
+                response =>
+					{
+						console.log("Lisää-toiminnon form-tägi eli REST/put-toiminto: axios:in 'response' = ", response)
+                      this.setState({ // Lopulta komponentin Tila (state) päivitetään
+                        lorem: this.state.lorem.concat(response), // uudella tiedolla ja
+                        ipsus: '', // tyhjennetään kontrolloidun syötekomponentin kenttä
+                        foo: '',
+                        bar: ''
+                      // Yllä oleva Tilan päivittäminen aiheuttaa renderöinnin, jolloin juuri lisätty uusi tieto
+                      // saadaan myös ruudulle näkyviin 'componentDidMount()' avulla, joka aiheuttaa taas uudelleen renderöinnin
+                      })
+					}
+/*
+TODO: Sulkevat aaltusulkeet tai sulkeet tai muu tilpehööri
+*/
+
+
+render() {
+  console.log('Käytiin renderissä')
+
+    return (
+	<div>
+	</div>
+	)
+
+}
+
+export default App
