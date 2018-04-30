@@ -40,7 +40,7 @@ kasitteleMuutosNumero = (event) => {
   // Lomakkeen kentän kautta vastaanotetaan muutos, joka halutaan tallentaa
   lisaaMuutos = (event) => {
     event.preventDefault()
-        console.log('this.state.uusiNimi = ', this.state.uusiNimi)
+        console.log('this.state.uusiNimi = ', this.state.uusiNimi, 'this.state.uusiNumero = ', this.state.uusiNumero)
         
         let apumuuttuja = false
           for (let i = 0; i < this.state.henkilot.length; i++) {
@@ -56,18 +56,21 @@ kasitteleMuutosNumero = (event) => {
             window.alert('Henkilö on jo tallennettu')
             this.setState({ // Lopulta komponentin Tila (state) päivitetään
               ...this.state.henkilot, // kopioimalla olemassa olevat henkilöt
-              uusiNimi: ''   // ja tyhjentämällä kontrolloidun syötekomponentin kenttä
+              uusiNimi: '',   // ja tyhjentämällä kontrolloidun syötekomponentin nimi-kenttä
+              uusiNumero: ''  // sekä tyhjentämällä kontrolloidun syötekomponentin numero-kenttä
             })
       } else {
               const olioJSON = {
-              nimi: this.state.uusiNimi
+              nimi: this.state.uusiNimi,
+              numero: this.state.uusiNumero
               }
 
       const henkilot = this.state.henkilot.concat(olioJSON)
 
       this.setState({ // Lopulta komponentin Tila (state) päivitetään
         henkilot, // uudella henkilöllä ja
-        uusiNimi: ''   // tyhjennetään kontrolloidun syötekomponentin kenttä
+        uusiNimi: '',   // ja tyhjentämällä kontrolloidun syötekomponentin nimi-kenttä
+        uusiNumero: ''  // sekä tyhjentämällä kontrolloidun syötekomponentin numero-kenttä
       })
     }
 }
