@@ -26,25 +26,43 @@
       "id": 1,
       "content": "HTML on helppoa",
       "date": "2017-12-10T17:30:31.098Z",
-      "important": true
+      "important": false
     },
     {
       "id": 2,
       "content": "Selain pystyy suorittamaan vain javascriptiä",
       "date": "2017-12-10T18:39:34.091Z",
-      "important": false
+      "important": true
     },
     {
       "id": 3,
       "content": "HTTP-protokollan tärkeimmät metodit ovat GET ja POST",
       "date": "2017-12-10T19:20:14.298Z",
-      "important": true
+      "important": false
     },
     {
       "content": "Tämä on itse lisätty muistiinpano axios.post",
       "date": "2018-04-25T09:20:16.536Z",
       "important": false,
       "id": 4
+    },
+    {
+      "content": "Testilisäys tietokantaan tallentamiseen palvelimelle",
+      "date": "2018-04-30T10:30:25.117Z",
+      "important": false,
+      "id": 5
+    },
+    {
+      "content": "Uusi kokeilu",
+      "date": "2018-04-30T10:31:36.568Z",
+      "important": true,
+      "id": 6
+    },
+    {
+      "content": "Erroria pukkaa, joten taas uusi kokeilu",
+      "date": "2018-04-30T10:32:32.800Z",
+      "important": true,
+      "id": 7
     }
   ],
   "posts": [
