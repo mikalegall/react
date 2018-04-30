@@ -24,7 +24,7 @@ class App extends React.PureComponent {
 
 
   componentWillMount() {
-    console.log('Elinkaarimetodi "componentDidMount" suoritettiin')
+    console.log('Elinkaarimetodi "componentWillMount" suoritettiin')
     // axios
     //  .get('http://localhost:3001/notes')
     //  .then(response => {
