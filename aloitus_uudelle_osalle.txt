@@ -17,3 +17,49 @@ Lis‰‰ package.json tuon Serverin scripti
 
 npm run server
 
+--X--X--
+
+NodeJS backendin luominen
+
+npm init
+
+ja lis‰‰ scripti osioon
+"start": "node index.js",	// https://docs.npmjs.com/misc/scripts
+
+npm install express --save
+
+
+npm install --save-dev nodemon
+
+ja lis‰‰ scripti osioon
+"watch": "nodemon index.js",
+
+
+Lopulta package.json n‰ytt‰‰ t‰lt‰
+
+{
+  "name": "notebackend",
+  "version": "0.0.1",
+  "description": "tyhja kuvaus",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "watch": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mika Le Gall",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3"	// "Hattuv‰k‰nen" versionumeron edess‰ tarkoittaa, ett‰ kun projektin riippuvuudet p‰ivitet‰‰n, asennetaan expressist‰ versio, joka on v‰hint‰‰n 4.16.3, mutta asennetuksi voi tulla versio, jonka patch eli viimeinen numero tai minor eli keskimm‰inen numero voi olla suurempi. P‰‰versio eli major t‰ytyy kuitenkin olla edelleen sama.
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.3"
+  }
+}
+	
+
+npm run watch
+
+
+
+
