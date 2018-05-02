@@ -1,0 +1,21 @@
+h2  /* Tämä on valitsin, johon alla olevassa oliossa ilmoitetut määrittelyt kohdistuvat https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors */
+ {
+    color: green;
+    font-style: italic;
+  }
+
+  .pöö {
+    color: grey;
+    padding-top: 5px;
+    font-size: 15px;
+  }
+
+  .erhe {
+    color: red;
+    background: lightgrey;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
