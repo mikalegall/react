@@ -1,9 +1,12 @@
 import React from 'react'
 
 const Henkilo = ({ props }) => {
+
   return (
-  
-    <div>{props.nimi} {props.numero}</div>
+      <div>
+          {props.nimi}
+          {props.numero}
+      </div>
   )
 }
 
