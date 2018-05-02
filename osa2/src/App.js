@@ -3,6 +3,7 @@ import Henkilo from './components/Henkilo'
 // import LisaysLomake from './components/LisaysLomake'
 // import axios from 'axios'
 import luettelointiPalvelu from './services/puhelinluettelointi'
+import Notification from './components/Notification'
 
 class App extends React.Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class App extends React.Component {
                   henkilot: [],
                   uusiNimi: '',
                   uusiNumero: '',
-                  rajaus: ''
+                  rajaus: '',
+                  info: null
                  }
   }
 
@@ -98,10 +100,14 @@ kasitteleMuutosNumero = (event) => {
                         henkilot: this.state.henkilot.concat(response), // uudella muistiinpanolla ja
                         uusiNimi: '', // tyhjennetään kontrolloidun syötekomponentin kenttä
                         uusiNumero: '',
-                        rajaus: ''
+                        rajaus: '',
+                        info: `Lisättiin ${olioJSON.nimi} numerolla ${olioJSON.numero}`
                       // Yllä oleva Tilan päivittäminen aiheuttaa renderöinnin, jolloin juuri lisätty uusi muistiinpano
                       // saadaan myös ruudulle näkyviin 'componentDidMount()' avulla, joka aiheuttaa taas uudelleen renderöinnin :)
                       })
+                      setTimeout(() => {
+                        this.setState({info: null})
+                      }, 5000)
                   }
               )
         }
@@ -117,7 +123,6 @@ kasitteleMuutosNumero = (event) => {
 // ***********************************************************************************************************
   
 
-
 render() {
   console.log('Käytiin renderissä')
 
@@ -126,7 +131,7 @@ render() {
 
 
         <h2>Puhelinluettelo</h2>
-      { /* <LisaysLomake props={this.state} /> */ }
+        <Notification message={this.state.info}/>
 
         <h2> Lisää uusi</h2>
         <form onSubmit={this.lisaaMuutos}>
@@ -157,10 +162,12 @@ render() {
 
 
         <h2>Numerot</h2>
-        {this.state.henkilot.map(hlo =>  
-        <Henkilo key={hlo.id} props={hlo} />
-        )}
 
+          { this.state.henkilot.map(
+              hlo =>
+                <Henkilo key={hlo.id} props={hlo} />
+            )
+          }
 
       </div>
     )

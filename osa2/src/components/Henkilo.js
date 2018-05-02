@@ -4,8 +4,7 @@ const Henkilo = ({ props }) => {
 
   return (
       <div>
-          {props.nimi}
-          {props.numero}
+          {props.nimi} {props.numero}
       </div>
   )
 }
