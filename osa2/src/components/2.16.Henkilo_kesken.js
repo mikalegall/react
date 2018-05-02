@@ -1,12 +1,13 @@
 import React from 'react'
 import luettelointiPalvelu from '../services/puhelinluettelointi'
 
-
+/*
 // ***********************************************************************************************************
   // Lomakkeen kentän kautta vastaanotetaan muutos eli tieto siitä mitä halutaan poistaa
-  kasitteleMuutos = (event) => {
+  kasittelePoistaminen = (event) => {
     event.preventDefault()
-    console.log("PÖÖ 'event' = ", event)
+    console.log("PÖÖ 'event' = ", event.value)
+
       luettelointiPalvelu
       .deleteObj(event)
       .then(
@@ -25,24 +26,25 @@ import luettelointiPalvelu from '../services/puhelinluettelointi'
 					  
 					  // this.setState({ henkilot: response.data })
 				  }
-			)
+      )
+      .catch(virheilmoitus => { // Mikäli promise menee tilaan "response_resolve_result_rejected" käsitellään virheilmoitus 
+            // TODO: Käsittele virheilmoitus jollain tavalla
+            alert(`Poistettavan olion (ID:llä '${event.id}') poistaminen epäonnistui, koska `, virheilmoitus)
+        this.setState({ notes: this.state.henkilot }) // Tökätään renderiä setState-metodin kautta
+      })
   }
 // ***********************************************************************************************************
-
-
+*/
 
 const Henkilo = ({ props }) => {
 
 
   return (
   
-    <form onSubmit={this.kasitteleMuutos}>
-      <div>
-          {props.nimi}
-          {props.numero}
-          <button type="submit" value={props.id}>poista</button>
+      <div className="pöö">
+          {props.nimi} {props.numero} <button type="submit" value={props.id} onClick={this.kasittelePoistaminen} >poista</button>
       </div>
-    </form>
+
   )
 }
 
