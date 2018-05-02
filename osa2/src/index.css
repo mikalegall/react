@@ -11,8 +11,8 @@ h2  /* Tämä on valitsin, johon alla olevassa oliossa ilmoitetut määrittelyt 
   }
 
   .erhe {
-    color: red;
-    background: lightgrey;
+    color: rgb(0, 0, 0);
+    background: green;
     font-size: 20px;
     border-style: solid;
     border-radius: 5px;
