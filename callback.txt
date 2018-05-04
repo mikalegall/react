@@ -1,5 +1,60 @@
 ﻿Tapahtumankäsittelijöihin liittyvä mekanismi koodin suorittamiseen on Javascriptissä erittäin yleistä. Tapahtumankäsittelijöinä olevia Javascript-funktioita kutsutaan callback- eli takaisinkutsufunktioiksi sillä sovelluksen koodi ei kutsu niitä itse, vaan suoritusympäristö, eli web-selain suorittaa funktion kutsumisen sopivana ajankohtana, eli kyseisen tapahtuman tapahduttua.
 
+
+App.js
+
+// Luodaan jokin funktiometodi ja nimetään se esim. fooBar sekä
+// järkätään siihen myöhemmin käsiksipääsy myös
+// toisesta tiedostosta eli eri React-komponentista
+// ns. CallBack-toiminnolla
+fooBar = (event) => {
+	console.log('fooBar event = ', event)
+// TODO: Haluttu toiminnallisuus
+// return x = 0
+}
+
+
+render() {
+  console.log('Käytiin renderissä')
+
+    return (
+      <div>
+		// Tässä annetaan "CallBack" toiminto toiselle komponentille eli React-komponentin
+		// ominaisuus, joka tässä tapauksessa on nimetty "handleClick" ja
+		// joka olisi voitu halutessa nimetä vaikka "näkkileipä" -nimiseksi
+		<Henkilo handleClick={this.fooBar} props={this.state}/> 
+      </div>
+    )
+}
+
+
+--X--X--
+
+
+import React from 'react'
+
+const Henkilo = ({ props, handleClick }) => {
+	console.log('Henkilo / handleClick (eli CallBack-toiminto) = ', handleClick)
+
+  return (
+  
+      <div>
+          <button type="submit" onClick={ () => handleClick(props.id) } >Poista</button>
+                                      {/* Tapahtumankäsittelijällä "onClick" päästään käsiksi ylemmän tason komponentin (parent)
+                                          funktiometodiin "fooBar()" käyttämällä CallBack-toimintoa
+                                          {() => handleClick()} ja välittämällä sen mukana jokin arvo
+                                          (tässä tapauksessa se nyt sattuu olemaan "props.id")
+                                      */}
+      </div>
+
+  )
+}
+
+export default Henkilo
+
+********************************************************************************************************************************************************
+
+
 Callback-funktiometodin idea:
 
 Annetaan Callback-funktio ylemmältä tasolta alemman tason propseille
