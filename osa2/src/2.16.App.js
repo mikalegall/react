@@ -190,7 +190,7 @@ render() {
 
           { this.state.henkilot.map(
               hlo =>
-                <Henkilo key={hlo.id} props={hlo} handleClick={this.kasittelePoistaminen} />  // Tässä annetaan CallBack toimintoi "handleClick"
+                <Henkilo key={hlo.id} props={hlo} handleClick={this.kasittelePoistaminen} />  // Tässä annetaan CallBack toiminto "handleClick"
             )
           }
 
