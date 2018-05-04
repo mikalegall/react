@@ -26,6 +26,7 @@ npm init
 ja lis‰‰ scripti osioon
 "start": "node index.js",	// https://docs.npmjs.com/misc/scripts
 
+Sen j‰lkeen:
 npm install express --save
 
 
