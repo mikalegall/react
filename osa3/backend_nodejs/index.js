@@ -53,6 +53,10 @@ app.get('/', (pyynto, vastaus) =>
 )
 
 // Lisätään REST toteutuksen tynkää... Hae kaikki
+// Endpoint on URI:a määrittelevä loremipsus -osoite ja
+// route on endpointista löytyvä foo.bar() resurssi eli
+// tapahtuman käsittely tai endpointin toteutus
+// (josta vastaa API-ohjaimen metodi)
 app.get('/tamaOnSovelluksenEndpointEliURI', (pyynto, vastaus) => {
 
 		console.log('Endpointtiin tehdyn "Hae kaikki" pyynnön mukana tulleet headerit ovat (ALKAA)', pyynto.headers)
