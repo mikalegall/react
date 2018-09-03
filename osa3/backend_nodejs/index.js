@@ -61,7 +61,7 @@ joka sisältää tarvittavat tiedostot HTTP-palvelin moduulin toteuttamiseksi.
 // Route on muotoa app.METHOD(PATH, HANDLER) oleva resurssi, jossa
 // 'app' nimiseen muuttujaan on sijoitettu Express-palvelinsovellusta vastaava olio.
 /*
-HTTP-metodi on kohdassa METHOD joko 'get', 'post', 'put' tai 'del',
+HTTP-metodi on kohdassa METHOD joko 'get', 'post', 'put' tai 'delete',
 endpoint on URI:a määrittelevä 'loremipsus'-osoite kohdassa PATH kuten esim. ('/tamaOnSovelluksenEndpointEliURI'), ja
 tapahtuman käsittelijä on foobar(request, response) kohdassa HANDLER kuten esim. 'function (pyynto, vastaus)'
 */
