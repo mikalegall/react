@@ -27,6 +27,10 @@ let taulukkoonTallennettujaOlioita = [
 								// Vastaa Reactissa ES6-moduulin käyttöönotossa import http from 'http'
 */
 const express = require('express')
+/*
+JavaScriptissä ES6-moduulin käyttöönotossa voitaisiin sanoa myös suoraan vain
+	import express from 'express';
+*/
 
 
 /*
