@@ -53,10 +53,18 @@ app.get('/', (pyynto, vastaus) =>
 )
 
 // Lisätään REST toteutuksen tynkää... Hae kaikki
-// Endpoint on URI:a määrittelevä loremipsus -osoite ja
-// route on endpointista löytyvä foo.bar() resurssi eli
-// tapahtuman käsittely tai endpointin toteutus
-// (josta vastaa API-ohjaimen metodi)
+/*
+Node on Googlen chrome V8 -JavaScriptmoottoriin perustuva JavaScriptin suoritusympäristö,
+jolla on paketinhallintaympäristö NPM (node packet manager). Sieltä löytyy web-server paketti nimeltä Express,
+joka sisältää tarvittavat tiedostot HTTP-palvelin moduulin toteuttamiseksi.
+*/
+// Route on muotoa app.METHOD(PATH, HANDLER) oleva resurssi, jossa
+// 'app' nimiseen muuttujaan on sijoitettu Express-palvelinsovellusta vastaava olio.
+/*
+HTTP-metodi on kohdassa METHOD joko 'get', 'post', 'put' tai 'del',
+endpoint on URI:a määrittelevä 'loremipsus'-osoite kohdassa PATH kuten esim. ('/tamaOnSovelluksenEndpointEliURI'), ja
+tapahtuman käsittelijä on foobar(request, response) kohdassa HANDLER kuten esim. 'function (pyynto, vastaus)'
+*/
 app.get('/tamaOnSovelluksenEndpointEliURI', (pyynto, vastaus) => {
 
 		console.log('Endpointtiin tehdyn "Hae kaikki" pyynnön mukana tulleet headerit ovat (ALKAA)', pyynto.headers)
