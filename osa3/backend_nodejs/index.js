@@ -165,11 +165,19 @@ app.route('/tamaOnSovelluksenEndpointEliURI/:id?') // Kaksoispiste ilmaisee para
 							}
 
 
+							// Estäa tiedon lisäämisen mikäli saman niminen henkilö on jo tallennettuna taulukkoon samalla numerolla
 							taulukkoonTallennettujaOlioita.map(alkioOlio =>
-																									alkioOlio.nimi === uusiOlio.nimi ? vastaus.status(400).json({error: 'Vain yksilölliset nimet sallittaan...'}) : 0
-																								)
-							// TODO: Estä tiedon lisääminen mikäli on jo tallennettuna taulukkoon!!!
-
+																			alkioOlio.nimi === uusiOlio.nimi 				
+																			&&
+																				taulukkoonTallennettujaOlioita.map(alkioOlio =>
+																																alkioOlio.numero === uusiOlio.numero
+																			?
+																			vastaus.status(400).json({error: 'Vain yksilölliset yhdistelmät sallittaan...'})
+																			: 0
+																												   )
+															   )
+														
+							
 							const uusiOlioMuokattu = {
 																				id: getRandomInt(9999),
 																				nimi: uusiOlio.nimi,
