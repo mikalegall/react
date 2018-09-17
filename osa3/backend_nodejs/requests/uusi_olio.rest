@@ -1,3 +1,4 @@
+
 POST http://localhost:3001/tamaOnSovelluksenEndpointEliURI
 content-type: application/json
 
@@ -5,3 +6,8 @@ content-type: application/json
     "content": "VS-Coden REST-client toimii myös",
      "important": false
 }
+
+
+# Asenna VS Coden REST client -plugini osoitteesta https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+# Uudelleenkäynnistä VS Code ja napsauta sen jälkeen testattavan endpointin yläpuolelle ilmestyvää "Send Request" tekstiä
+# (jostain kumman syystä "Send Request" teksti saattaa toisinaan olla vaikeahko saada ilmestymään, joten vierittele tarvittaessa edestakaisin endpoint piiloon ja näkyviin)
