@@ -1,5 +1,5 @@
 
-GET http://api.icndb.com/jokes
+DELETE http://localhost:3001/api/persons/2
 
 # Asenna VS Coden REST client -plugini osoitteesta https://marketplace.visualstudio.com/items?itemName=humao.rest-client
 # Uudelleenkäynnistä VS Code ja napsauta sen jälkeen testattavan endpointin yläpuolelle ilmestyvää "Send Request" tekstiä

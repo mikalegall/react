@@ -1,3 +1,5 @@
+// Käynnistys: npm run watch
+
 console.log('Moikka, moi! Tämä on Node.js/express backend toteutus :) ')
 
 let taulukkoonTallennettujaOlioita = [
@@ -64,13 +66,46 @@ app.listen(PORT, () => {
 })
 
 
+
+// MIDDLEWARE funktiot alkaa
+/*
+Middleware functions are functions that have access to 
+Route
+the request object (req), the response object (res),
+and
+the next middleware function
+(execute any code, make changes to Route aka. the request and the response objects, end the request-response cycle, call the next middleware function)
+in the application’s request-response cycle (in the stack).
+The next middleware function is commonly denoted by a variable named next.
+*/
+
+
+
 // HTTP POST -pyyntöön body-osa mukaan
 const bodyParser = require('body-parser')	// Node.js-express: body-parser kirjasto https://github.com/expressjs/body-parser
 																					// ottaa POST-pyyntöön liitetyn JSON-muotoisen datan ja muuntaa sen JavaScript-olioksi sekä sijoittaa sen
 																					// request-olion body-kenttään ennen kuin kutsuu API-endpointin route-käsittelijää
 
+// Middlewareja voi olla käytössä useita, jolloin ne suoritetaan peräkkäin siinä järjestyksessä kun ne on otettu koodissa käyttöön
 // HTTP POST -pyyntöön body mukaan JSON muodossa
 app.use(bodyParser.json())
+
+
+//  Käyttötapahtumien muistiin merkitseminen (logg, loki)
+const lokitus = (pyynto, vastaus, seuraava) => {
+	console.log('Method:', pyynto.method)
+	console.log('Path:  ', pyynto.path)
+	console.log('Body:  ', pyynto.body)
+	console.log('---')
+	seuraava()
+  }
+
+
+// Middlewareja voi olla käytössä useita, jolloin ne suoritetaan peräkkäin siinä järjestyksessä kun ne on otettu koodissa käyttöön
+app.use(lokitus)
+
+// MIDDLEWARE funktiot loppuu
+
 
 
 // Lisätään REST toteutuksen tynkää...
@@ -214,6 +249,20 @@ app.route('/tamaOnSovelluksenEndpointEliURI/:id?') // Kaksoispiste ilmaisee para
 
 							vastaus.status(204).end()	// Metodi "end" ilmoittaa siitä, että pyyntöön tulee vastata ilman dataa, koska vastaukseen ei liity mitään palautettavaa
 						})
+
+
+// MIDDLEWARE funktiot JATKUU alkaa
+const erhe = (pyynto, vastaus) => {
+	vastaus.status(404).send({erhe: 'Tuntematon endpoint (URI)'})
+}
+
+// Middlewareja voi olla käytössä useita, jolloin ne suoritetaan peräkkäin siinä järjestyksessä kun ne on otettu koodissa käyttöön
+app.use(erhe)
+
+// MIDDLEWARE funktiot JATKUU loppuu
+
+
+
 
 
 
