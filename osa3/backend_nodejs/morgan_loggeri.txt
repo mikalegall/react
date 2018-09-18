@@ -1,0 +1,33 @@
+
+// Otetaan käyttöön valmiina tarjoiltava käyttötapahtumien muistiin merkitseminen (logg, loki)
+// nimeltään Morgan osoitteesta https://github.com/expressjs/morgan 
+// lisäämällä package.json tiedostoon
+// "dependencies": { "morgan": "^1.9.1" }
+// tai ajamalla samassa kansiossa komentoriviltä komento npm install morgan
+const morgan = require('morgan')
+morgan('tiny')
+// morgan('tiny') sisältää toiminnallisuuden
+/*
+morgan(':method :url :status :res[content-length] - :response-time ms')
+*/
+
+// Ja taasen tuo yllä oleva morgan(':method :url :status :res[content-length] - :response-time ms') sisältää toiminnallisuuden
+/*
+morgan(function (tokens, req, res) {
+	return [
+	  tokens.method(req, res),
+	  tokens.url(req, res),
+	  tokens.status(req, res),
+	  tokens.res(req, res, 'content-length'), '-',
+	  tokens['response-time'](req, res), 'ms'
+	].join(' ')
+  })
+*/
+
+
+// Middlewareja voi olla käytössä useita, jolloin ne suoritetaan peräkkäin siinä järjestyksessä kun ne on otettu koodissa käyttöön
+//  combined = log all request in the Apache combined format
+app.use(morgan('combined'))
+// HUOM! Osoitteesta https://github.com/expressjs/morgan löytyy myös ohjeet lokitiedoston kirjoittamiseen kiintolevylle
+
+
