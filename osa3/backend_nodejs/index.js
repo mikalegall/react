@@ -104,6 +104,15 @@ const lokitus = (pyynto, vastaus, seuraava) => {
 // Middlewareja voi olla käytössä useita, jolloin ne suoritetaan peräkkäin siinä järjestyksessä kun ne on otettu koodissa käyttöön
 app.use(lokitus)
 
+
+// Sallitaan kommunikointi myös muualta kuin omalta alueelta (esim. eri portista, domainista...)
+// lisäämällä package.json tiedostoon
+// "dependencies": { "cors": "^2.8.4" }
+// tai ajamalla samassa kansiossa komentoriviltä komento npm install cors --save
+const cors = require('cors')
+// Middlewareja voi olla käytössä useita, jolloin ne suoritetaan peräkkäin siinä järjestyksessä kun ne on otettu koodissa käyttöön
+app.use(cors())
+
 // MIDDLEWARE funktiot loppuu
 
 
@@ -295,3 +304,4 @@ app.route('/api/persons/:id?')
 		vastaus.status(204).end()	// Metodi "end" ilmoittaa siitä, että pyyntöön tulee vastata ilman dataa, koska vastaukseen ei liity mitään palautettavaa
 	})
 */
+
