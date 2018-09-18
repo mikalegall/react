@@ -47,15 +47,6 @@ JavaScriptissä ES6-moduulin käyttöönotossa voitaisiin sanoa myös suoraan va
 */
 const app = express()
 
-app.get('/', (pyynto, vastaus) =>
-	{
-		console.log('"Juureen" tehdyn pyynnön mukana tulleet headerit ovat (ALKAA)', pyynto.headers)
-		console.log('Pyynnön mukana tulleet headerit (LOPPUU)')
-	vastaus.send('<h1>Tervehdys vaan teillekin!</h1>')	// Vastauksen "send" metodi saa stringistä johtuen content-type-headerin arvoksi text/html
-	}
-)
-
-
 /* const port = 3001
 app.listen(port)
 console.log(`Palvelin käynnistetty porttiin ${port}`)
@@ -106,6 +97,7 @@ app.use(lokitus)
 
 
 // Sallitaan kommunikointi myös muualta kuin omalta alueelta (esim. eri portista, domainista...)
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
 // lisäämällä package.json tiedostoon
 // "dependencies": { "cors": "^2.8.4" }
 // tai ajamalla samassa kansiossa komentoriviltä komento npm install cors --save
@@ -113,11 +105,21 @@ const cors = require('cors')
 // Middlewareja voi olla käytössä useita, jolloin ne suoritetaan peräkkäin siinä järjestyksessä kun ne on otettu koodissa käyttöön
 app.use(cors())
 
+
 // MIDDLEWARE funktiot loppuu
 
 
 
-// Lisätään REST toteutuksen tynkää...
+
+app.get('/', (pyynto, vastaus) =>
+	{
+		console.log('"Juureen" tehdyn pyynnön mukana tulleet headerit ovat (ALKAA)', pyynto.headers)
+		console.log('Pyynnön mukana tulleet headerit (LOPPUU)')
+	vastaus.send('<h1>Tämä on etusivu tai itseasiassa backendin Node.js Express-palvelimen toteutus juuressa. Tervehdys vaan teillekin!</h1>')	// Vastauksen "send" metodi saa stringistä johtuen content-type-headerin arvoksi text/html
+	}
+)
+
+
 /*
 Node.js on Googlen chrome V8 -JavaScriptmoottoriin perustuva JavaScriptin suoritusympäristö,
 jolla on paketinhallintaympäristö NPM (node packet manager). Sieltä löytyy web-server paketti nimeltä Express,
@@ -140,7 +142,7 @@ app.get('/info', (pyynto, vastaus) => {
 	})
 
 
-
+// Lisätään REST toteutus
 // Route voidaan myös HTTP-metodin osalta ketjuttaa endpointtiin, jolloin kaikki löytyy kätevästi samasta paikasta
 // (katso myös vastaus-olioon liittyvät metodit http://expressjs.com/en/guide/routing.html )	
 app.route('/tamaOnSovelluksenEndpointEliURI/:id?') // Kaksoispiste ilmaisee parametrin ja kysymysmerkki ilmaisee, että se ei ole pakollinen (optional)
@@ -260,6 +262,7 @@ app.route('/tamaOnSovelluksenEndpointEliURI/:id?') // Kaksoispiste ilmaisee para
 						})
 
 
+						
 // MIDDLEWARE funktiot JATKUU alkaa
 const erhe = (pyynto, vastaus) => {
 	vastaus.status(404).send({erhe: 'Tuntematon endpoint (URI)'})
