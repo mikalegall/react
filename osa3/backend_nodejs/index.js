@@ -47,11 +47,20 @@ JavaScriptissä ES6-moduulin käyttöönotossa voitaisiin sanoa myös suoraan va
 */
 const app = express()
 
+
 /* const port = 3001
 app.listen(port)
 console.log(`Palvelin käynnistetty porttiin ${port}`)
 */
+/*
 const PORT = 3001
+app.listen(PORT, () => {
+  console.log(`Palvelin käynnistetty porttiin ${PORT}`)
+})
+*/
+// Tarkistetaan onko ympäristömuuttujassa asetettu porttia ja mikäli ei ole, niin asetetaan portiksi 3001 (Heroku konfiguroi sovelluksen portin ympäristömuuttujan avulla)
+// https://mooc-fullstack-mikalegall.herokuapp.com/
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Palvelin käynnistetty porttiin ${PORT}`)
 })
